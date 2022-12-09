@@ -30,7 +30,7 @@ export default function ListAlarms({ AlarmsList }) {
 
   return (
     <SafeAreaView style = {{flex: 1}}>
-      <Text style={styles.titleStyle}>Motivational Video Alarm</Text>
+      <Text style={styles.titleStyle}>Motivational Alarm</Text>
       <FlatList
         keyExtractor={(item) => item.id}
         data={Alarms}
