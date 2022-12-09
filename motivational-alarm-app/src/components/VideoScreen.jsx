@@ -6,11 +6,13 @@ export default function VideoScreen({ navigation }) {
   const [status, setStatus] = React.useState({});
   return (
     <View style={styles.container}>
-      <Text>Here is your motivational video today.</Text>
+      <Text style={styles.textStyle}>
+        Here is your motivational video today.
+      </Text>
       <Video
         ref={video}
         style={styles.video}
-        source={require("../../assets/videos/video1.mp4")}
+        source={require("../../assets/videos/katkot.mp4")}
         useNativeControls
         resizeMode="contain"
         isLooping
@@ -28,5 +30,10 @@ const styles = StyleSheet.create({
   video: {
     flex: 1,
     alignSelf: "stretch",
+  },
+  textStyle: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "500",
   },
 });

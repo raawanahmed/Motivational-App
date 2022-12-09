@@ -55,13 +55,11 @@ export default function TimePicker() {
       : undefined;
   }, [sound]);
   useEffect(() => {
-    //When app is closed
     const backgroundSubscription =
       Notification.addNotificationResponseReceivedListener(() => {
         console.log("hiii");
-        stopSound();
+       // stopSound();
       });
-    //When the app is open
     const foregroundSubscription = Notification.addNotificationReceivedListener(
       (notification) => {
         console.log(notification);
