@@ -5,6 +5,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
+import { Alert } from "react-native";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -48,6 +49,13 @@ export default function TimePicker() {
   }, []);
 
   const handleConfirm = (date) => {
+    var currentTime = Date.now();
+    if (date.getTime() < currentTime) {
+      Alert.alert("please choose future time");
+      hideDatePicker();
+
+      return;
+    }
     handleOnAddAlarm(date);
     // console.log(selectedDate);
     hideDatePicker();
