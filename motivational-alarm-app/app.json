@@ -1,5 +1,16 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "sounds": ["/assets/sounds/yaSabahElro3b.wav"]
+        }
+      ]
+    ],
+    "notification":{
+      "icon":"./assets/icons/gogo.png"
+    },
     "name": "motivational-alarm-app",
     "slug": "motivational-alarm-app",
     "version": "1.0.0",
@@ -18,7 +29,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
