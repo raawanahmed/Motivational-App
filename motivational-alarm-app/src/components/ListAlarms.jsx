@@ -9,6 +9,7 @@ export default function ListAlarms() {
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => state);
   const onDeleteButton = (item) => {
+    // to do add alert before deleting
     console.log(item);
     dispatch({
       type: DELETE_ALARM,

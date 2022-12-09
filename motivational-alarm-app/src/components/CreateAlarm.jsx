@@ -32,11 +32,6 @@ export default function CreateAlarm() {
     <SafeAreaView style={styles.container}>
       <View>
         <ListAlarms />
-        <MyButton
-          buttonTitle={"Play Sound"}
-          buttonColor={"purple"}
-          actionOnPress={playSound}
-        />
         <TimePicker />
       </View>
     </SafeAreaView>

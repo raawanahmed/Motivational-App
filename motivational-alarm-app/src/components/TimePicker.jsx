@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, Linking } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
 import { Alert } from "react-native";
+import { Audio } from "expo-av";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -18,6 +19,7 @@ Notification.setNotificationHandler({
 export default function TimePicker() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [numOfID, setID] = React.useState(3);
+  const [sound, setSound] = useState();
   const dispatch = useDispatch();
 
   const showDatePicker = () => {
@@ -29,14 +31,41 @@ export default function TimePicker() {
   const onPress = () => {
     console.log("Notification pressed");
   };
+  const handleReceivedNotification = () => {
+    playSound();
+  };
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/sounds/yaSabahElro3b.wav")
+    );
+    setSound(sound);
+    await sound.playAsync();
+  };
+
+  const stopSound = async () => {
+    await sound.stopAsync();
+  };
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
   useEffect(() => {
     //When app is closed
     const backgroundSubscription =
-      Notification.addNotificationResponseReceivedListener((response) => {});
+      Notification.addNotificationResponseReceivedListener(() => {
+        console.log("hiii");
+        stopSound();
+      });
     //When the app is open
     const foregroundSubscription = Notification.addNotificationReceivedListener(
       (notification) => {
         console.log(notification);
+        playSound();
       }
     );
 
