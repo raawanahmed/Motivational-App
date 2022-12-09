@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
 import { Alert } from "react-native";
 Notification.setNotificationHandler({

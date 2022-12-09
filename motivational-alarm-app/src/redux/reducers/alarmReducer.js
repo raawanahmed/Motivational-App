@@ -19,7 +19,8 @@ const alarmReducer = (state = initialState, action) => {
       return {
         ...state,
         alarms: state.alarms.filter((v) => {
-          return v.value !== action.payload;
+          // console.log(v.id, action.payload.id);
+          return v.id !== action.payload.id;
         }),
       };
     case DELETE_ALL_ALARMS:

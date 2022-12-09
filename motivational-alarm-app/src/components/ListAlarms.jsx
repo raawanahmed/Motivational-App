@@ -1,16 +1,21 @@
-import { Button, StyleSheet, FlatList, View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
-import { ListItem } from "react-native-elements";
+import { StyleSheet, FlatList, View, Text } from "react-native";
+import React from "react";
 import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
-export default function ListAlarms({ AlarmsList }) {
-  const [Alarms, setAlarms] = React.useState(AlarmsList);
-  const onDeleteButton = () => {};
+import { useDispatch } from "react-redux";
+import { DELETE_ALARM } from "../redux/actions/types";
+export default function ListAlarms() {
+  const dispatch = useDispatch();
   const { alarms } = useSelector((state) => state);
+  const onDeleteButton = (item) => {
+    console.log(item);
+    dispatch({
+      type: DELETE_ALARM,
+      payload: { id: item.id, time: item.time, date: item.date },
+    });
+  };
   const renderItem = ({ item }) => {
-    //  console.log(item);
-
     return (
       <View style={styles.alarmStyle}>
         <View style={styles.alarmContent}>
@@ -21,7 +26,7 @@ export default function ListAlarms({ AlarmsList }) {
           buttonTitle="Delete"
           buttonColor="red"
           actionOnPress={() => {
-            onDeleteButton(item.id);
+            onDeleteButton(item);
           }}
         />
       </View>
