@@ -70,6 +70,7 @@ export default function TimePicker() {
         mode="datetime"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+        textColor="black"
       />
     </View>
   );
