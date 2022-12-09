@@ -5,11 +5,7 @@ import TimePicker from "./TimePicker";
 import ListAlarms from "./ListAlarms";
 import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
-export default function CreateAlarm({navigation}) {
-  const Alarms = [
-    { id: 0, time: "12:38 AM", date: "09/12/2022" },
-    { id: 1, time: "12:38 AM", date: "10/12/2022" },
-  ];
+export default function CreateAlarm() {
   const [sound, setSound] = useState();
 
   const playSound = async () => {
@@ -35,13 +31,13 @@ export default function CreateAlarm({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ListAlarms AlarmsList={Alarms} />
+        <ListAlarms />
         <MyButton
           buttonTitle={"Play Sound"}
           buttonColor={"purple"}
           actionOnPress={playSound}
         />
-        <TimePicker AlarmsList={Alarms}/>
+        <TimePicker />
       </View>
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import { ADD_ALARM, DELETE_ALARM } from "../actions/types";
+import { ADD_ALARM, DELETE_ALARM, DELETE_ALL_ALARMS } from "../actions/types";
 
 const initialState = {
   alarms: [
@@ -21,6 +21,11 @@ const alarmReducer = (state = initialState, action) => {
         alarms: state.alarms.filter((v) => {
           return v.value !== action.payload;
         }),
+      };
+    case DELETE_ALL_ALARMS:
+      return {
+        ...state,
+        alarms: [],
       };
 
     default:

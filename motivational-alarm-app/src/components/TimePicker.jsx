@@ -4,7 +4,7 @@ import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_ALARM } from "../redux/actions/types";
+import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -14,10 +14,8 @@ Notification.setNotificationHandler({
     };
   },
 });
-export default function TimePicker({ AlarmsList }) {
+export default function TimePicker() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  // const [alarms, setAlarms] = React.useState(AlarmsList);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [numOfID, setID] = React.useState(3);
   const dispatch = useDispatch();
 
@@ -50,8 +48,7 @@ export default function TimePicker({ AlarmsList }) {
   }, []);
 
   const handleConfirm = (date) => {
-    setSelectedDate(date);
-    handleOnAddAlarm();
+    handleOnAddAlarm(date);
     // console.log(selectedDate);
     hideDatePicker();
     Notification.scheduleNotificationAsync({
@@ -85,26 +82,20 @@ export default function TimePicker({ AlarmsList }) {
     return [day, month, year].join("/");
   };
 
-  const handleOnAddAlarm = () => {
-    const t = formatTime(selectedDate);
-    const d = formatDate(selectedDate);
+  const handleOnAddAlarm = (date) => {
+    const t = formatTime(date);
+    const d = formatDate(date);
     console.log(t, d);
     dispatch({
       type: ADD_ALARM,
       payload: { id: numOfID, time: t, date: d },
     });
-
-    // const updatedAlarms = [
-    //   ...alarms,
-    //   {
-    //     id: numOfID,
-    //     time: t,
-    //     date: d,
-    //   },
-    // ];
     setID(numOfID + 1);
-    // setAlarms(updatedAlarms);
-    // console.log(updatedAlarms);
+  };
+  const handleOnDeleteAllAlarms = () => {
+    dispatch({
+      type: DELETE_ALL_ALARMS,
+    });
   };
   return (
     <View>
@@ -114,6 +105,14 @@ export default function TimePicker({ AlarmsList }) {
         actionOnPress={() => {
           showDatePicker();
           console.log("Add button");
+        }}
+      />
+      <MyButton
+        buttonTitle={"Delete All Alarms"}
+        buttonColor={"red"}
+        actionOnPress={() => {
+          handleOnDeleteAllAlarms();
+          console.log("Delete All Alarms button");
         }}
       />
       <DateTimePicker
