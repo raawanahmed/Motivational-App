@@ -3,6 +3,8 @@ import { View } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_ALARM } from "../redux/actions/types";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -14,9 +16,10 @@ Notification.setNotificationHandler({
 });
 export default function TimePicker({ AlarmsList }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [alarms, setAlarms] = React.useState(AlarmsList);
+  // const [alarms, setAlarms] = React.useState(AlarmsList);
   const [selectedDate, setSelectedDate] = useState(null);
   const [numOfID, setID] = React.useState(3);
+  const dispatch = useDispatch();
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -86,17 +89,22 @@ export default function TimePicker({ AlarmsList }) {
     const t = formatTime(selectedDate);
     const d = formatDate(selectedDate);
     console.log(t, d);
-    const updatedAlarms = [
-      ...alarms,
-      {
-        id: numOfID,
-        time: t,
-        date: d,
-      },
-    ];
+    dispatch({
+      type: ADD_ALARM,
+      payload: { id: numOfID, time: t, date: d },
+    });
+
+    // const updatedAlarms = [
+    //   ...alarms,
+    //   {
+    //     id: numOfID,
+    //     time: t,
+    //     date: d,
+    //   },
+    // ];
     setID(numOfID + 1);
-    setAlarms(updatedAlarms);
-   // console.log(updatedAlarms);
+    // setAlarms(updatedAlarms);
+    // console.log(updatedAlarms);
   };
   return (
     <View>

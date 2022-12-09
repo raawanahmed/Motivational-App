@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { ListItem } from "react-native-elements";
 import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
-
+import { useSelector } from "react-redux";
 export default function ListAlarms({ AlarmsList }) {
   const [Alarms, setAlarms] = React.useState(AlarmsList);
   const onDeleteButton = () => {};
-
+  const { alarms } = useSelector((state) => state);
   const renderItem = ({ item }) => {
     //  console.log(item);
 
@@ -29,11 +29,11 @@ export default function ListAlarms({ AlarmsList }) {
   };
 
   return (
-    <SafeAreaView style = {{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.titleStyle}>Motivational Alarm</Text>
       <FlatList
         keyExtractor={(item) => item.id}
-        data={Alarms}
+        data={alarms}
         renderItem={renderItem}
       />
     </SafeAreaView>
