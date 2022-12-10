@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
 import { Alert } from "react-native";
 import { Audio } from "expo-av";
+import { useNavigation } from "@react-navigation/native";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -21,7 +22,7 @@ export default function TimePicker() {
   const [numOfID, setID] = React.useState(3);
   const [sound, setSound] = useState();
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -54,11 +55,13 @@ export default function TimePicker() {
         }
       : undefined;
   }, [sound]);
+
   useEffect(() => {
     const backgroundSubscription =
       Notification.addNotificationResponseReceivedListener(() => {
         console.log("hiii");
-       // stopSound();
+        navigation.navigate("Video Screen");
+        // stopSound();
       });
     const foregroundSubscription = Notification.addNotificationReceivedListener(
       (notification) => {
