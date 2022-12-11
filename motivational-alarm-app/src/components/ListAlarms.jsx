@@ -13,7 +13,12 @@ export default function ListAlarms() {
     console.log(item);
     dispatch({
       type: DELETE_ALARM,
-      payload: { id: item.id, time: item.time, date: item.date },
+      payload: {
+        id: item.id,
+        time: item.time,
+        date: item.date,
+        notificationId: item.notificationId,
+      },
     });
   };
   const renderItem = ({ item }) => {

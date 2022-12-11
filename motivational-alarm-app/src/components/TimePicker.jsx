@@ -17,6 +17,15 @@ Notification.setNotificationHandler({
     };
   },
 });
+export async function cancelAllNotifications() {
+  console.log("In Cancel All Notifications");
+  await Notification.cancelAllScheduledNotificationsAsync();
+}
+export async function cancelNotification(notificationId) {
+  console.log(notificationId);
+  //await Notification.dismissNotificationAsync(notificationId);
+  await Notification.cancelScheduledNotificationAsync(notificationId);
+}
 export default function TimePicker() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [numOfID, setID] = React.useState(3);
@@ -78,18 +87,8 @@ export default function TimePicker() {
     };
   }, []);
 
-  const handleConfirm = (date) => {
-    var currentTime = Date.now();
-    if (date.getTime() < currentTime) {
-      Alert.alert("please choose future time");
-      hideDatePicker();
-
-      return;
-    }
-    handleOnAddAlarm(date);
-    // console.log(selectedDate);
-    hideDatePicker();
-    Notification.scheduleNotificationAsync({
+  async function handleAddNotification(date) {
+    const notificationId = await Notification.scheduleNotificationAsync({
       content: {
         title: "Motivational Reminder Notification",
         body: "See Your Motivational Video for today!",
@@ -98,6 +97,32 @@ export default function TimePicker() {
         date: date,
       },
     });
+    return notificationId;
+  }
+  const handleConfirm = (date) => {
+    var currentTime = Date.now();
+    if (date.getTime() < currentTime) {
+      Alert.alert("please choose future time");
+      hideDatePicker();
+
+      return;
+    }
+
+    // console.log(selectedDate);
+
+    hideDatePicker();
+    // const notificationId = Notification.scheduleNotificationAsync({
+    //   content: {
+    //     title: "Motivational Reminder Notification",
+    //     body: "See Your Motivational Video for today!",
+    //   },
+    //   trigger: {
+    //     date: date,
+    //   },
+    // });
+    const notificationId = handleAddNotification(date);
+    console.log("AAAAA " + notificationId);
+    handleOnAddAlarm(date, notificationId);
   };
   const formatTime = (date) => {
     var hours = date.getHours();
@@ -120,13 +145,18 @@ export default function TimePicker() {
     return [day, month, year].join("/");
   };
 
-  const handleOnAddAlarm = (date) => {
+  const handleOnAddAlarm = (date, notificationIdentifier) => {
     const t = formatTime(date);
     const d = formatDate(date);
     console.log(t, d);
     dispatch({
       type: ADD_ALARM,
-      payload: { id: numOfID, time: t, date: d },
+      payload: {
+        id: numOfID,
+        time: t,
+        date: d,
+        notificationId: notificationIdentifier,
+      },
     });
     setID(numOfID + 1);
   };
