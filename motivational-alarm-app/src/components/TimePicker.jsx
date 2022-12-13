@@ -3,11 +3,13 @@ import { View, Linking } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
 import { Alert } from "react-native";
 import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
+import { DELETE_ALARM } from "../redux/actions/types";
+
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -32,6 +34,7 @@ export default function TimePicker() {
   const [sound, setSound] = useState();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { alarms } = useSelector((state) => state);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -65,16 +68,32 @@ export default function TimePicker() {
       : undefined;
   }, [sound]);
 
+  function deleteNotificationFromList(id) {
+    // to do add alert before deleting
+    //console.log(alarms);
+    dispatch({
+      type: DELETE_ALARM,
+      payload: {
+        notificationId: id,
+      },
+    });
+  }
+
   useEffect(() => {
     const backgroundSubscription =
-      Notification.addNotificationResponseReceivedListener(() => {
-        console.log("hiii");
+      Notification.addNotificationResponseReceivedListener((notification) => {
+        // console.log(notification.notification.request.identifier);
+        // deleteNotificationFromList(
+        //   notification.notification.request.identifier
+        // );
         navigation.navigate("Video Screen");
         // stopSound();
       });
     const foregroundSubscription = Notification.addNotificationReceivedListener(
       (notification) => {
-        console.log(notification);
+        console.log(notification.request.identifier);
+        deleteNotificationFromList(notification.request.identifier);
+        // console.log(alarms);
         playSound();
       }
     );
@@ -104,24 +123,11 @@ export default function TimePicker() {
     if (date.getTime() < currentTime) {
       Alert.alert("please choose future time");
       hideDatePicker();
-
       return;
     }
-
-    // console.log(selectedDate);
-
     hideDatePicker();
-    // const notificationId = Notification.scheduleNotificationAsync({
-    //   content: {
-    //     title: "Motivational Reminder Notification",
-    //     body: "See Your Motivational Video for today!",
-    //   },
-    //   trigger: {
-    //     date: date,
-    //   },
-    // });
     const notificationId = handleAddNotification(date);
-    console.log("AAAAA " + notificationId);
+    // console.log("AAAAA " + notificationId);
     handleOnAddAlarm(date, notificationId);
   };
   const formatTime = (date) => {
@@ -149,6 +155,8 @@ export default function TimePicker() {
     const t = formatTime(date);
     const d = formatDate(date);
     console.log(t, d);
+    console.log("yarabbbbb");
+    console.log(notificationIdentifier);
     dispatch({
       type: ADD_ALARM,
       payload: {
@@ -158,6 +166,8 @@ export default function TimePicker() {
         notificationId: notificationIdentifier,
       },
     });
+    console.log("in handleAddAlarm: ");
+    console.log(alarms);
     setID(numOfID + 1);
   };
   const handleOnDeleteAllAlarms = () => {
