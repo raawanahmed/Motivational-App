@@ -9,7 +9,20 @@ import { Alert } from "react-native";
 import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
 import { DELETE_ALARM } from "../redux/actions/types";
+import * as SQLite from "expo-sqlite";
 
+//console.log(JSON.stringify(SQLite));
+const db = SQLite.openDatabase(
+  {
+    name: "db",
+    location: "default",
+  },
+  () => {},
+  (error) => {
+    console.log(error);
+  }
+);
+console.log("Hellooooo");
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -35,6 +48,19 @@ export default function TimePicker() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { alarms } = useSelector((state) => state);
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS Alarms (id INTEGER PRIMARY KEY AUTOINCREMENT, notificationId INTEGER, time TEXT, date TEXT)"
+    );
+  });
+  // const createTable = () => {
+  //   db.transaction((tx) => {
+  //     tx.executeSql(
+  //       "CREATE TABLE IF NOT EXISTS Alarms (id INTEGER PRIMARY KEY AUTOINCREMENT, notificationId INTEGER, time TEXT, date TEXT)"
+  //     );
+  //   });
+  // };
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
