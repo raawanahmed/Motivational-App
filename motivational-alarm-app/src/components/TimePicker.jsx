@@ -83,9 +83,9 @@ export default function TimePicker() {
     const backgroundSubscription =
       Notification.addNotificationResponseReceivedListener((notification) => {
         // console.log(notification.notification.request.identifier);
-        // deleteNotificationFromList(
-        //   notification.notification.request.identifier
-        // );
+        deleteNotificationFromList(
+          notification.notification.request.identifier
+        );
         navigation.navigate("Video Screen");
         // stopSound();
       });
