@@ -12,7 +12,7 @@ export default function VideoScreen({ navigation }) {
       <Video
         ref={video}
         style={styles.video}
-        source={require("../../assets/videos/katkot.mp4")}
+        source={require("../../assets/videos/video2.mp4")}
         useNativeControls
         resizeMode="contain"
         isLooping

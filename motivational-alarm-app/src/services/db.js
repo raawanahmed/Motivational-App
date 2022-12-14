@@ -1,37 +1,55 @@
-// import { SQLite } from "expo";
-// import SQLite from "react-native-sqlite-storage";
-// import { useDispatch, useSelector } from "react-redux";
-//  const db = SQLite.openDatabase(
-//   {
-//     name: "MainDB",
-//     location: "default",
-//   },
-//   () => {
-//     console.log("Tmam");
-//   },
-//   (error) => {
-//     console.log(error);
-//   }
-// );
+import * as SQLite from "expo-sqlite";
 
-// export const createTable = () => {
-//   db.transaction((tx) => {
-//     tx.executeSql(
-//       "CREATE TABLE IF NOT EXISTS Alarms (id INTEGER PRIMARY KEY AUTOINCREMENT, notificationId INTEGER, time TEXT, date TEXT)"
-//     );
-//   });
-// };
+const db = SQLite.openDatabase(
+  {
+    name: "videosDB",
+    location: "default",
+    
+  },
+  () => {},
+  (error) => {
+    console.log(error);
+  }
+);
 
-// export const insertAlarm = async (time, date, notificationId) => {
-//   console.log("In insertAlarm Function. ");
-//   try {
-//     await db.transaction(async (tx) => {
-//       await tx.executeSql(
-//         "INSERT INTO Alarms (time, date, notificationId) VALUES (?, ?, ?)",
-//         [time, date, notificationId]
-//       );
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const createTable = () => {
+  console.log("in CreateTable function");
+  db.transaction((tx) => {
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS videos (id INTEGER PRIMARY KEY AUTOINCREMENT, index INTEGER,  path TEXT)"
+    );
+  });
+};
+
+export const insertVideo = async (index) => {
+  console.log("In insertVideo Function. ");
+  try {
+    await db.transaction(async (tx) => {
+      await tx.executeSql("INSERT INTO videos (path, index) VALUES (?, ?)", [
+        `../../assets/videos/video${index}.mp4`,
+        index,
+      ]);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getVideo = async (index) => {
+  console.log("In getVideo Function. ");
+  console.log(db);
+
+  await db.transaction(async (tx) => {
+    await tx.executeSql(
+      "SELECT path FROM videos WHERE index = ?",
+      [index],
+      (tx, result) => {
+        console.log("rawan");
+        console.log(result.rows.item(0).path);
+        return result.rows.item(0).path;
+      }
+    );
+  });
+
+  console.log("felll akheeeer")
+};
