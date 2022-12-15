@@ -5,12 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen({ navigation }) {
   const addVideo = async (id, path) => {
-    // const configurationObject = {
-    //   method: "post",
-    //   url: `https://motivational-alarm-app.herokuapp.com/api/getVideo/1`,
-    // };
-    // const response = await axios(configurationObject);
-    const res = await axios.post(
+    const response = await axios.post(
       `https://motivational-alarm-app.herokuapp.com/api/addVideo`,
       {
         id: id,
@@ -22,13 +17,12 @@ export default function HomeScreen({ navigation }) {
         },
       }
     );
-    console.log(res.data.path);
+    // console.log("Path of video from database: " + response.data.path);
   };
 
   const init = async () => {
     const isFirst = await AsyncStorage.getItem("isFirst");
-
-    // console.log(isFirst);
+    // console.log("is first time to build database? "+isFirst);
     if (isFirst === null || isFirst === "null") {
       const urls = [
         "https://www.youtube.com/embed/RIYOO2-G22U",

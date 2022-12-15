@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-export default function QuotesScreen({ navigation }) {
+export default function QuotesScreen() {
   return (
     <View style={styles.container}>
       <Text>Here is your motivational quote today.</Text>

@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View, Text } from "react-native";
+import { StyleSheet, FlatList, View, Text, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
@@ -10,9 +10,23 @@ export default function ListAlarms() {
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
+  const okButtonPressed = (item) => {
+    console.log("Yes Pressed");
+    onDeleteButton(item);
+  };
+  const alertBeforeDeleting = (item) => {
+    Alert.alert("Alert!!!", "Do you want to delete this alarm ?", [
+      {
+        text: "No",
+        onPress: () => console.log("No Pressed"),
+        style: "cancel",
+      },
+      { text: "Yes", onPress: () => okButtonPressed(item) },
+    ]);
+  };
   const onDeleteButton = (item) => {
-    // to do add alert before deleting
-    console.log(item);
+    // console.log("Details of alarm will be deleted: ");
+    // console.log(item);
     dispatch({
       type: DELETE_ALARM,
       payload: {
@@ -34,7 +48,7 @@ export default function ListAlarms() {
           buttonTitle="Delete"
           buttonColor="red"
           actionOnPress={() => {
-            onDeleteButton(item);
+            alertBeforeDeleting(item);
           }}
         />
       </View>
