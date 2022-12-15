@@ -1,6 +1,55 @@
 import { StyleSheet, Button, View } from "react-native";
+import axios from "axios";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen({ navigation }) {
+  const addVideo = async (id, path) => {
+    // const configurationObject = {
+    //   method: "post",
+    //   url: `https://motivational-alarm-app.herokuapp.com/api/getVideo/1`,
+    // };
+    // const response = await axios(configurationObject);
+    const res = await axios.post(
+      `https://motivational-alarm-app.herokuapp.com/api/addVideo`,
+      {
+        id: id,
+        path: path,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(res.data.path);
+  };
+
+  const init = async () => {
+    const isFirst = await AsyncStorage.getItem("isFirst");
+
+    // console.log(isFirst);
+    if (isFirst === null || isFirst === "null") {
+      const urls = [
+        "https://www.youtube.com/embed/RIYOO2-G22U",
+        "https://www.youtube.com/embed/SZZ59M8ZUMI",
+        "https://www.youtube.com/embed/kzYx9cxB6gs",
+        "https://www.youtube.com/embed/IzMLoImoJQI",
+        "https://www.youtube.com/embed/w6KhkbcMC6w",
+        "https://www.youtube.com/embed/WQ2arZr1zyM",
+      ];
+      for (var i = 0; i < 6; i++) {
+        addVideo(i, urls[i]);
+      }
+      await AsyncStorage.setItem("isFirst", "false");
+      await AsyncStorage.setItem("videoIdx", "0");
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Button

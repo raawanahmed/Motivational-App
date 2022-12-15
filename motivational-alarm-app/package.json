@@ -11,9 +11,12 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@notifee/react-native": "^7.2.0",
+    "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-navigation/native": "^6.1.0",
     "@react-navigation/native-stack": "^6.9.5",
+    "axios": "^1.2.1",
     "expo": "^47.0.0",
     "expo-av": "~13.0.2",
     "expo-notifications": "~0.17.0",
@@ -38,6 +41,7 @@
     "react-native-video": "^5.2.1",
     "react-native-video-player": "^0.14.0",
     "react-native-web": "~0.18.7",
+    "react-native-webview": "^11.26.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0"
   },
