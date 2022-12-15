@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Linking } from "react-native";
+import { View } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
@@ -9,6 +9,7 @@ import { Alert } from "react-native";
 import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
 import { DELETE_ALARM } from "../redux/actions/types";
+
 
 Notification.setNotificationHandler({
   handleNotification: async () => {
@@ -36,16 +37,13 @@ export default function TimePicker() {
   const navigation = useNavigation();
   const { alarms } = useSelector((state) => state);
 
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  const onPress = () => {
-    console.log("Notification pressed");
-  };
+
   const handleReceivedNotification = () => {
     playSound();
   };

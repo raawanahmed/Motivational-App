@@ -1,13 +1,15 @@
 import { StyleSheet, FlatList, View, Text } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { DELETE_ALARM } from "../redux/actions/types";
+import { DELETE_ALARM, SET_ALARMS } from "../redux/actions/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function ListAlarms() {
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => state);
+  const [isLoading, setIsLoading] = useState(false);
   const onDeleteButton = (item) => {
     // to do add alert before deleting
     console.log(item);
@@ -38,15 +40,35 @@ export default function ListAlarms() {
       </View>
     );
   };
-
+  const init = async () => {
+    setIsLoading(true);
+    let storageAlarms = await AsyncStorage.getItem("alarms");
+    if (storageAlarms != null) {
+      storageAlarms = JSON.parse(storageAlarms);
+      dispatch({
+        type: SET_ALARMS,
+        payload: {
+          alarms: storageAlarms,
+        },
+      });
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.titleStyle}>Motivational Alarm</Text>
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={alarms}
-        renderItem={renderItem}
-      />
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={alarms}
+          renderItem={renderItem}
+        />
+      )}
     </SafeAreaView>
   );
 }

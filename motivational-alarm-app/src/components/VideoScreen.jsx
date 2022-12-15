@@ -4,16 +4,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WebView from "react-native-webview";
-export default function VideoScreen({ navigation }) {
+export default function VideoScreen() {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const [videoPath, setVideoPath] = useState(null);
   const getVideo = async () => {
-    // const configurationObject = {
-    //   method: "post",
-    //   url: `https://motivational-alarm-app.herokuapp.com/api/getVideo/1`,
-    // };
-    // const response = await axios(configurationObject);
     let idx = await AsyncStorage.getItem("videoIdx");
     idx = +idx;
     idx %= 6;
