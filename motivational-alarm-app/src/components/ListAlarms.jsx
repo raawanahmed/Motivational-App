@@ -1,9 +1,15 @@
-import { StyleSheet, FlatList, View, Text, Alert } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  Alert,
+  SafeAreaView,
+  ImageBackground,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import MyButton from "./MyButton";
-import { SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { deleteAlarm, setLocalStorageOfAlarms } from "../redux/actions/actions";
 export default function ListAlarms() {
@@ -35,7 +41,7 @@ export default function ListAlarms() {
         </View>
         <MyButton
           buttonTitle="Delete"
-          buttonColor="red"
+          buttonColor="#001b36"
           actionOnPress={() => {
             console.log("Delete button pressed");
             alertBeforeDeleting(item);
@@ -57,30 +63,36 @@ export default function ListAlarms() {
     init();
   }, []);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text style={styles.titleStyle}>Motivational Alarm</Text>
-      {isLoading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={alarms}
-          renderItem={renderItem}
-        />
-      )}
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View>
+          <Text style={styles.titleStyle}>Motivational Alarm</Text>
+          {isLoading ? (
+            <Text>Loading...</Text>
+          ) : (
+            <FlatList
+              keyExtractor={(item) => item.id}
+              data={alarms}
+              renderItem={renderItem}
+            />
+          )}
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
 const styles = StyleSheet.create({
   titleStyle: {
-    fontWeight: "bold",
+    textAlign: "center",
     fontSize: 25,
-    alignContent: "center",
-    marginLeft: 15,
+    color: "#001b36",
+    fontWeight: "bold",
+    padding: 6,
+    margin: 5,
+    width: "100%"
   },
   alarmStyle: {
     padding: 15,
-    backgroundColor: "white",
     marginVertical: 6,
     marginLeft: 5,
     marginRight: 5,
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
   },
   dateStyle: {
     fontWeight: "400",
-    color: "gray",
+    color: "black",
   },
   timeStyle: {
     fontWeight: "bold",

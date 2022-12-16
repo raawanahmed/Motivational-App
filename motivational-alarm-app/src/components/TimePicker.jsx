@@ -104,18 +104,6 @@ export default function TimePicker() {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  const handleOnConfirm = (date) => {
-    var currentTime = Date.now();
-    if (date.getTime() < currentTime) {
-      Alert.alert("Please choose future time.");
-      hideDatePicker();
-      return;
-    }
-    hideDatePicker();
-    const notificationId = handleAddNotification(date);
-    handleOnAddAlarm(date, notificationId);
-  };
-
   const handleOnAddAlarm = (date, notificationIdentifier) => {
     const formattedTime = formatTime(date);
     const formattedDate = formatDate(date);
@@ -129,6 +117,18 @@ export default function TimePicker() {
     );
     setID(numOfID + 1);
   };
+  const handleOnConfirm = (date) => {
+    var currentTime = Date.now();
+    if (date.getTime() < currentTime) {
+      Alert.alert("Please choose future time.");
+      hideDatePicker();
+      return;
+    }
+    hideDatePicker();
+    const notificationId = handleAddNotification(date);
+    handleOnAddAlarm(date, notificationId);
+  };
+
   const yesButtonPressed = () => {
     console.log("Yes Pressed");
     dispatch(deleteAllAlarms());
@@ -145,10 +145,10 @@ export default function TimePicker() {
   };
 
   return (
-    <View>
+    <View style={{ marginLeft: 30, marginRight: 30, marginVertical: 10 }}>
       <MyButton
         buttonTitle={"Add Alarm"}
-        buttonColor={"green"}
+        buttonColor={"#bb9cb4"}
         actionOnPress={() => {
           showDatePicker();
           console.log("Add button pressed");
@@ -156,7 +156,7 @@ export default function TimePicker() {
       />
       <MyButton
         buttonTitle={"Delete All Alarms"}
-        buttonColor={"red"}
+        buttonColor={"#001b36"}
         actionOnPress={() => {
           alertBeforeDeletingAllAlarms();
           console.log("Delete all alarms button pressed");

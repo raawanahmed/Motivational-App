@@ -19,11 +19,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
     borderRadius: 10,
-    width: 280,
     marginHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 5
+    marginVertical: 5,
+    color:"black",
+    width:"100%"
   },
   textStyle: {
     color: "white",
