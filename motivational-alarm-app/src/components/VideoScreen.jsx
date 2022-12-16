@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View} from "react-native";
 import { Video } from "expo-av";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -38,7 +38,7 @@ export default function VideoScreen() {
         <Video
           ref={video}
           style={styles.video}
-          source={arr[id]}
+          source={require("../../assets/videos/video2.mp4")}
           useNativeControls
           resizeMode="contain"
           isLooping

@@ -4,8 +4,8 @@ import {
   DELETE_ALL_ALARMS,
   SET_ALARMS,
 } from "../actions/types";
-import { cancelNotification } from "../../components/TimePicker";
-import { cancelAllNotifications } from "../../components/TimePicker";
+import { cancelScheduledNotification } from "../../components/TimePicker";
+import { cancelAllScheduledNotifications } from "../../components/TimePicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
@@ -33,18 +33,18 @@ const alarmReducer = (state = initialState, action) => {
     case DELETE_ALARM:
       // for (var i = 0; i < state.alarms.length; i++) {
       //   if (state.alarms[i].id == action.payload.id) {
-      //     // console.log(action.payload.notificationId);
-      //     cancelNotification(action.payload.notificationId);
+      //     console.log(action.payload.notificationId);
+      //     cancelScheduledNotification(action.payload.notificationId);
       //   }
-      //   //console.log(state.alarms[i]);
       // }
       const alarmsAfterDelete = state.alarms.filter((v) => {
         // console.log(v.id, action.payload.id);
         if (action.payload.id !== undefined) {
-          console.log(v.id._z, action.payload.id);
+          // console.log(v.id._z, action.payload.id);
           return v.id !== action.payload.id;
         } else {
-          console.log(v.notificationId._z, action.payload.notificationId);
+          // console.log(v.notificationId._z, action.payload.notificationId);
+          // delete notification auto after been sent to the user
           return v.notificationId._z !== action.payload.notificationId;
         }
       });
@@ -54,7 +54,7 @@ const alarmReducer = (state = initialState, action) => {
         alarms: alarmsAfterDelete,
       };
     case DELETE_ALL_ALARMS:
-      cancelAllNotifications();
+      cancelAllScheduledNotifications();
       updateStoredAlarms([]);
       return {
         ...state,

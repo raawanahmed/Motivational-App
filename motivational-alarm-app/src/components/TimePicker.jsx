@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import * as Notification from "expo-notifications";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyButton from "./MyButton";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_ALARM, DELETE_ALL_ALARMS } from "../redux/actions/types";
-import { Alert } from "react-native";
 import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
-import { DELETE_ALARM } from "../redux/actions/types";
-
+import { formatDate, formatTime } from "../services/helperFunctions";
+import {
+  addAlarm,
+  deleteAllAlarms,
+  deleteNotificationFromList,
+} from "../redux/actions/actions";
 
 Notification.setNotificationHandler({
   handleNotification: async () => {
@@ -20,13 +22,13 @@ Notification.setNotificationHandler({
     };
   },
 });
-export async function cancelAllNotifications() {
-  console.log("In Cancel All Notifications");
+export async function cancelAllScheduledNotifications() {
+  // console.log("In Cancel All Notifications");
   await Notification.cancelAllScheduledNotificationsAsync();
 }
-export async function cancelNotification(notificationId) {
+export async function cancelScheduledNotification(notificationId) {
   console.log(notificationId);
-  //await Notification.dismissNotificationAsync(notificationId);
+  // await Notification.dismissNotificationAsync(notificationId);
   await Notification.cancelScheduledNotificationAsync(notificationId);
 }
 export default function TimePicker() {
@@ -37,17 +39,6 @@ export default function TimePicker() {
   const navigation = useNavigation();
   const { alarms } = useSelector((state) => state);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleReceivedNotification = () => {
-    playSound();
-  };
-
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/sounds/yaSabahElro3b.wav")
@@ -57,7 +48,7 @@ export default function TimePicker() {
   };
 
   const stopSound = async () => {
-    await sound.stopAsync();
+    await sound.pauseAsync();
   };
 
   useEffect(() => {
@@ -67,40 +58,31 @@ export default function TimePicker() {
         }
       : undefined;
   }, [sound]);
-
-  function deleteNotificationFromList(id) {
-    // to do add alert before deleting
-    //console.log(alarms);
-    dispatch({
-      type: DELETE_ALARM,
-      payload: {
-        notificationId: id,
-      },
-    });
-  }
-
   useEffect(() => {
     const backgroundSubscription =
       Notification.addNotificationResponseReceivedListener((notification) => {
+        // after click on the notification
         // console.log(notification.notification.request.identifier);
-        deleteNotificationFromList(
-          notification.notification.request.identifier
+        dispatch(
+          deleteNotificationFromList(
+            notification.notification.request.identifier
+          )
         );
-        navigation.navigate("Video Screen");
         // stopSound();
+        navigation.navigate("Video Screen");
       });
     const foregroundSubscription = Notification.addNotificationReceivedListener(
+      // when notification received
       (notification) => {
         console.log(notification.request.identifier);
-        deleteNotificationFromList(notification.request.identifier);
+        dispatch(deleteNotificationFromList(notification.request.identifier));
         // console.log(alarms);
         playSound();
       }
     );
 
     return () => {
-      // cleanup function
-      // remove subscription before component unmounts
+      // cleanup function remove subscription before component unmounts
       backgroundSubscription.remove();
       foregroundSubscription.remove();
     };
@@ -118,63 +100,52 @@ export default function TimePicker() {
     });
     return notificationId;
   }
-  const handleConfirm = (date) => {
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleOnConfirm = (date) => {
     var currentTime = Date.now();
     if (date.getTime() < currentTime) {
-      Alert.alert("please choose future time");
+      Alert.alert("Please choose future time.");
       hideDatePicker();
       return;
     }
     hideDatePicker();
     const notificationId = handleAddNotification(date);
-    // console.log("AAAAA " + notificationId);
     handleOnAddAlarm(date, notificationId);
-  };
-  const formatTime = (date) => {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var AmPm = hours >= 12 ? "pm" : "am";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    var time = hours + ":" + minutes + " " + AmPm;
-    return time;
-  };
-  const formatDate = (date) => {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [day, month, year].join("/");
   };
 
   const handleOnAddAlarm = (date, notificationIdentifier) => {
-    const t = formatTime(date);
-    const d = formatDate(date);
-    console.log(t, d);
-    console.log("yarabbbbb");
-    console.log(notificationIdentifier);
-    dispatch({
-      type: ADD_ALARM,
-      payload: {
-        id: numOfID,
-        time: t,
-        date: d,
-        notificationId: notificationIdentifier,
-      },
-    });
-    console.log("in handleAddAlarm: ");
-    console.log(alarms);
+    const formattedTime = formatTime(date);
+    const formattedDate = formatDate(date);
+    // console.log(
+    //   "formattedTime: " + formattedTime,
+    //   "formattedDate: " + formattedDate
+    // );
+    // console.log("Notification Identifier: "+notificationIdentifier);
+    dispatch(
+      addAlarm(numOfID, formattedTime, formattedDate, notificationIdentifier)
+    );
     setID(numOfID + 1);
   };
-  const handleOnDeleteAllAlarms = () => {
-    dispatch({
-      type: DELETE_ALL_ALARMS,
-    });
+  const yesButtonPressed = () => {
+    console.log("Yes Pressed");
+    dispatch(deleteAllAlarms());
   };
+  const alertBeforeDeletingAllAlarms = () => {
+    Alert.alert("Alert!!!", "Do you want to delete all alarms ?", [
+      {
+        text: "No",
+        onPress: () => console.log("No Pressed"),
+        style: "cancel",
+      },
+      { text: "Yes", onPress: () => yesButtonPressed() },
+    ]);
+  };
+
   return (
     <View>
       <MyButton
@@ -182,21 +153,21 @@ export default function TimePicker() {
         buttonColor={"green"}
         actionOnPress={() => {
           showDatePicker();
-          console.log("Add button");
+          console.log("Add button pressed");
         }}
       />
       <MyButton
         buttonTitle={"Delete All Alarms"}
         buttonColor={"red"}
         actionOnPress={() => {
-          handleOnDeleteAllAlarms();
-          console.log("Delete All Alarms button");
+          alertBeforeDeletingAllAlarms();
+          console.log("Delete all alarms button pressed");
         }}
       />
       <DateTimePicker
         isVisible={isDatePickerVisible}
         mode="datetime"
-        onConfirm={handleConfirm}
+        onConfirm={handleOnConfirm}
         onCancel={hideDatePicker}
         textColor="black"
       />

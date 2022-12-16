@@ -4,15 +4,17 @@ import MyButton from "./MyButton";
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { DELETE_ALARM, SET_ALARMS } from "../redux/actions/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { deleteAlarm, setLocalStorageOfAlarms } from "../redux/actions/actions";
 export default function ListAlarms() {
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => state);
   const [isLoading, setIsLoading] = useState(false);
-  const okButtonPressed = (item) => {
+  const yesButtonPressed = (item) => {
     console.log("Yes Pressed");
-    onDeleteButton(item);
+    // console.log("Details of alarm will be deleted: ");
+    // console.log(item);
+    dispatch(deleteAlarm(item));
   };
   const alertBeforeDeleting = (item) => {
     Alert.alert("Alert!!!", "Do you want to delete this alarm ?", [
@@ -21,21 +23,8 @@ export default function ListAlarms() {
         onPress: () => console.log("No Pressed"),
         style: "cancel",
       },
-      { text: "Yes", onPress: () => okButtonPressed(item) },
+      { text: "Yes", onPress: () => yesButtonPressed(item) },
     ]);
-  };
-  const onDeleteButton = (item) => {
-    // console.log("Details of alarm will be deleted: ");
-    // console.log(item);
-    dispatch({
-      type: DELETE_ALARM,
-      payload: {
-        id: item.id,
-        time: item.time,
-        date: item.date,
-        notificationId: item.notificationId,
-      },
-    });
   };
   const renderItem = ({ item }) => {
     return (
@@ -48,6 +37,7 @@ export default function ListAlarms() {
           buttonTitle="Delete"
           buttonColor="red"
           actionOnPress={() => {
+            console.log("Delete button pressed");
             alertBeforeDeleting(item);
           }}
         />
@@ -59,12 +49,7 @@ export default function ListAlarms() {
     let storageAlarms = await AsyncStorage.getItem("alarms");
     if (storageAlarms != null) {
       storageAlarms = JSON.parse(storageAlarms);
-      dispatch({
-        type: SET_ALARMS,
-        payload: {
-          alarms: storageAlarms,
-        },
-      });
+      dispatch(setLocalStorageOfAlarms(storageAlarms));
     }
     setIsLoading(false);
   };
