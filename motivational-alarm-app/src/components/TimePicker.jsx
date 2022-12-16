@@ -27,7 +27,7 @@ export async function cancelAllScheduledNotifications() {
   await Notification.cancelAllScheduledNotificationsAsync();
 }
 export async function cancelScheduledNotification(notificationId) {
-  console.log(notificationId);
+  // console.log(notificationId);
   // await Notification.dismissNotificationAsync(notificationId);
   await Notification.cancelScheduledNotificationAsync(notificationId);
 }
@@ -37,7 +37,6 @@ export default function TimePicker() {
   const [sound, setSound] = useState();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { alarms } = useSelector((state) => state);
 
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
@@ -74,9 +73,8 @@ export default function TimePicker() {
     const foregroundSubscription = Notification.addNotificationReceivedListener(
       // when notification received
       (notification) => {
-        console.log(notification.request.identifier);
+        // console.log(notification.request.identifier);
         dispatch(deleteNotificationFromList(notification.request.identifier));
-        // console.log(alarms);
         playSound();
       }
     );
