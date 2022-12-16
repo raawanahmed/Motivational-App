@@ -76,7 +76,7 @@ export default function ListOfQuotes({ quotes }) {
   };
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <ImageBackground
           source={require("../../assets/Images/background2.jpg")}
           style={{ flex: 1 }}
@@ -95,7 +95,7 @@ export default function ListOfQuotes({ quotes }) {
             )}
           </View>
         </ImageBackground>
-      </SafeAreaView>
+      </View>
     </>
   );
 }
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     color: "#001b36",
     fontWeight: "bold",
     padding: 6,
-    margin: 5,
+    marginTop: 50,
   },
   icon: {
     margin: 5,

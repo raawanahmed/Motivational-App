@@ -8,12 +8,34 @@ import CreateAlarm from "./src/components/CreateAlarm";
 import FavQuotesScreen from "./src/components/FavQuotesScreen";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
-const Stack = createNativeStackNavigator();
+import { ImageBackground, StatusBar } from "react-native";
+
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
+//const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: true,
+            headerTitleContainerStyle: {
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            headerStyle: {
+              backgroundColor: "white",
+              borderBottomLeftRadius: 300,
+              borderBottomRightRadius: 300,
+              height: 70,
+            },
+
+            headerTransparent: "true",
+            headerTitle: "",
+          }}
+        >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Alarm" component={CreateAlarm} />
           <Stack.Screen name="Video Screen" component={VideoScreen} />
@@ -21,6 +43,7 @@ export default function App() {
           <Stack.Screen name="Fav Quotes Screen" component={FavQuotesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      <StatusBar />
     </Provider>
   );
 }

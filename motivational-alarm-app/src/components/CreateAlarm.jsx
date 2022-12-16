@@ -5,7 +5,7 @@ import ListAlarms from "./ListAlarms";
 import { SafeAreaView, ImageBackground } from "react-native";
 export default function CreateAlarm() {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={require("../../assets/Images/background2.jpg")}
         style={{ flex: 1 }}
@@ -16,7 +16,7 @@ export default function CreateAlarm() {
           <TimePicker />
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 

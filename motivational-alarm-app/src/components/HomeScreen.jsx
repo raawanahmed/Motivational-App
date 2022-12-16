@@ -1,14 +1,9 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  ImageBackground,
-} from "react-native";
+import { SafeAreaView, StyleSheet, View, ImageBackground } from "react-native";
 import axios from "axios";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MyButton from "./MyButton";
-
+import { Text } from "react-native";
 
 export default function HomeScreen({ navigation }) {
   const addVideo = async (id, path) => {
@@ -52,25 +47,28 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         source={require("../../assets/Images/background2.jpg")}
         style={{ flex: 1 }}
         resizeMode="cover"
       >
+        <View style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
+          <Text style={styles.textStyle}>Welcome to Motivational App</Text>
+        </View>
         <View style={styles.container}>
           <MyButton
-            buttonTitle="Set an Alarm"
+            buttonTitle="Set an Alarm for motivational video."
             actionOnPress={() => navigation.navigate("Alarm")}
             buttonColor={"#001b36"}
           />
           <MyButton
-            buttonTitle="Go to your motivational video today!"
+            buttonTitle="Go to a motivational video."
             actionOnPress={() => navigation.navigate("Video Screen")}
             buttonColor={"#001b36"}
           />
           <MyButton
-            buttonTitle="Go to your motivational quotes"
+            buttonTitle="Go to motivational quotes."
             actionOnPress={() => navigation.navigate("Quotes Screen")}
             buttonColor={"#001b36"}
           />
@@ -81,7 +79,7 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -90,15 +88,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.4)"
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
-  headerTitle: {
+
+  textStyle: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 30,
     color: "#001b36",
     fontWeight: "bold",
-    padding: 6,
-    margin: 5,
-    marginBottom: 80,
+    padding: 30,
+    marginTop: 20,
   },
 });

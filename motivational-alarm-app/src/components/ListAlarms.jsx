@@ -63,22 +63,18 @@ export default function ListAlarms() {
     init();
   }, []);
   return (
-    <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View>
-          <Text style={styles.titleStyle}>Motivational Alarm</Text>
-          {isLoading ? (
-            <Text>Loading...</Text>
-          ) : (
-            <FlatList
-              keyExtractor={(item) => item.id}
-              data={alarms}
-              renderItem={renderItem}
-            />
-          )}
-        </View>
-      </SafeAreaView>
-    </>
+    <View style={{ flex: 1 }}>
+      <Text style={styles.titleStyle}>Motivational Alarm</Text>
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={alarms}
+          renderItem={renderItem}
+        />
+      )}
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -88,8 +84,8 @@ const styles = StyleSheet.create({
     color: "#001b36",
     fontWeight: "bold",
     padding: 6,
-    margin: 5,
-    width: "100%"
+    marginTop: 50,
+    width: "100%",
   },
   alarmStyle: {
     padding: 15,

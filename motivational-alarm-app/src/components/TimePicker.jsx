@@ -145,7 +145,7 @@ export default function TimePicker() {
   };
 
   return (
-    <View style={{ marginLeft: 30, marginRight: 30, marginVertical: 10 }}>
+    <View style={{ marginLeft: 30, marginRight: 30, marginVertical: 10, marginBottom: 50 }}>
       <MyButton
         buttonTitle={"Add Alarm"}
         buttonColor={"#bb9cb4"}

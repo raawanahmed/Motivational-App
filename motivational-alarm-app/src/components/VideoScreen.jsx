@@ -1,14 +1,18 @@
-import { Dimensions, ImageBackground, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Video } from "expo-av";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WebView from "react-native-webview";
 
-
-export default function VideoScreen() 
-{
-
+export default function VideoScreen() {
   const [videoPath, setVideoPath] = useState(null);
 
   const getVideo = async () => {
@@ -33,25 +37,22 @@ export default function VideoScreen()
     getVideo();
   }, []);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         source={require("../../assets/Images/background2.jpg")}
         style={{ flex: 1 }}
         resizeMode="cover"
       >
         <View style={styles.container}>
-          <Text style={styles.headerTitle}>
-            Here is your motivational video today.
-          </Text>
-          {
-            videoPath != null ? (
-              <WebView
-                scalesPageToFit={true}
-                bounces={false}
-                javaScriptEnabled
-                style={styles.webFrame}
-                source={{
-                  html: `
+          <Text style={styles.headerTitle}>Motivational video</Text>
+          {videoPath != null ? (
+            <WebView
+              scalesPageToFit={true}
+              bounces={false}
+              javaScriptEnabled
+              style={styles.webFrame}
+              source={{
+                html: `
                 <!DOCTYPE html>
                 <html>
                   <head>
@@ -62,33 +63,32 @@ export default function VideoScreen()
                   
                   </body>
                 </html>`,
-                }}
-                automaticallyAdjustContentInsets={false}
-              />
-            ) : (<Text style={styles.textStyle}> Loading...</Text>)
-          }
-
+              }}
+              automaticallyAdjustContentInsets={false}
+            />
+          ) : (
+            <Text style={styles.textStyle}> Loading...</Text>
+          )}
         </View>
       </ImageBackground>
-
-    </SafeAreaView>
+    </View>
   );
 }
 
-let deviceWidth = Dimensions.get('window').width
+let deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    backgroundColor: "rgba(0,0,0,0.4)"
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   webFrame: {
     width: deviceWidth,
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   headerTitle: {
     textAlign: "center",
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     color: "#001b36",
     fontWeight: "bold",
     padding: 6,
-    margin: 5,
     marginBottom: 80,
+    marginTop: 50,
   },
   textStyle: {
     textAlign: "center",
