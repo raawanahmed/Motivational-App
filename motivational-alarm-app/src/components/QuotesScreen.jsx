@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,44 +56,83 @@ export default function QuotesScreen() {
   // navigation.navigate("Fav Quotes Screen");
   const renderItem = ({ item }) => {
     return (
-      <View>
-        <View>
-          <Text>{item.quote}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              handleOnLikePress(item.id, item.quote);
-            }}
-          >
-            <AntDesign
-              name={isQuoteFav[item.id] ? "heart" : "hearto"}
-              size={30}
-              color="black"
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.quote}>
+        <Text style={styles.textQuote}>{item.quote}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            handleOnLikePress(item.id, item.quote);
+          }}
+          style={styles.iconStyle}
+        >
+          <AntDesign
+            name={isQuoteFav[item.id] ? "heart" : "hearto"}
+            size={30}
+            color="#c3a1c2"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
       </View>
     );
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text>Motivational Quotes</Text>
-      {isLoading ? (
-        <Text>loading...</Text>
-      ) : (
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={Quotes}
-          renderItem={renderItem}
-        />
-      )}
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ImageBackground
+          source={require("../../assets/Images/background2.jpg")}
+          style={{ flex: 1 }}
+          resizeMode="cover"
+        >
+          <View style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
+            <Text style={styles.headerTitle}>Motivational Quotes</Text>
+            {isLoading ? (
+              <Text>loading...</Text>
+            ) : (
+              <FlatList
+                keyExtractor={(item) => item.id}
+                data={Quotes}
+                renderItem={renderItem}
+              />
+            )}
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  headerTitle: {
+    textAlign: "center",
+    fontSize: 25,
+    color: "#001b36",
+    fontWeight: "bold",
+    padding: 6,
+    margin: 5,
+  },
   icon: {
-    marginHorizontal: 15,
-    marginRight: 15,
+    margin: 5,
+  },
+  quote: {
+    flex: 1,
+    padding: 20,
+    marginVertical: 6,
+    marginLeft: 5,
+    marginRight: 5,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
+    alignItems: "stretch",
+    width: "100%",
+  },
+  item: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  textQuote: {
+    color: "#c3a1c2",
+  },
+  iconStyle: {
+    flexDirection: "row-reverse",
   },
 });
