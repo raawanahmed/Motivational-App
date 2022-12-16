@@ -58,8 +58,8 @@ const quotesReducer = (state = initialState, action) => {
       const favQuotesAfterDelete = state.favQuotes.filter((v) => {
         return v.id !== action.payload.id;
       });
-      console.log("at delete:");
-      console.log(favQuotesAfterDelete);
+      // console.log("favQuotesAfterDelete: ");
+      // console.log(favQuotesAfterDelete);
       updateFavQuotes(favQuotesAfterDelete);
       return {
         ...state,

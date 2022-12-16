@@ -9,7 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+
 import {
   addQuoteToFavQuotes,
   deleteQuoteFromFavQuotes,
@@ -25,9 +25,9 @@ export default function QuotesScreen() {
   const handleOnLikePress = (quoteId, quote) => {
     const isLike = [...isQuoteFav];
     isLike[quoteId] = !isLike[quoteId];
-   // console.log(isLike);
+    // console.log(isLike);
     dispatch(setLikeStateToQuote(quoteId));
-   // console.log(isQuoteFav);
+    // console.log(isQuoteFav);
     if (isLike[quoteId] === true) {
       dispatch(addQuoteToFavQuotes(quoteId, quote));
     } else {
