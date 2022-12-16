@@ -1,43 +1,65 @@
-import { SafeAreaView, StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import {
+  addQuoteToFavQuotes,
+  deleteQuoteFromFavQuotes,
+} from "../redux/actions/actions";
 export default function QuotesScreen() {
   const navigation = useNavigation();
-  const Quotes = [
-    {
-      id: 1,
-      quote:
-        "Success is not final; failure is not fatal: It is the courage to continue that counts. — Winston S. Churchill",
-    },
-    {
-      id: 2,
-      quote:
-        "It is better to fail in originality than to succeed in imitation. — Herman Melville",
-    },
-    {
-      id: 3,
-      quote:
-        "The road to success and the road to failure are almost exactly the same. — Colin R. Davis",
-    },
-    {
-      id: 4,
-      quote:
-        "Success usually comes to those who are too busy looking for it — Henry David Thoreau",
-    },
-    {
-      id: 5,
-      quote: "Don’t let yesterday take up too much of today. — Will Rogers",
-    },
-    {
-      id: 6,
-      quote:
-        "Just one small positive thought in the morning can change your whole day. — Dalai Lama",
-    },
-  ];
+  // const [isLike, setIsLike] = useState([]);
+  const dispatch = useDispatch();
+  const [isQuoteFav, setQuoteToFav] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const Quotes = useSelector((state) => state.quotesReducer.quotes);
+  const handleOnLikePress = (quoteId, quote) => {
+    const isLike = [...isQuoteFav];
+    // console.log(quoteId);
+    console.log("before click " + isLike);
+    if (isLike[quoteId] === true) {
+      dispatch(addQuoteToFavQuotes(quoteId, quote));
+    } else {
+      dispatch(deleteQuoteFromFavQuotes(quoteId));
+    }
+    isLike[quoteId] = !isLike[quoteId];
+    console.log(isLike);
+    setQuoteToFav(isLike);
+    console.log("You pressed on like.");
+  };
   // navigation.navigate("Fav Quotes Screen");
   const renderItem = ({ item }) => {
     return (
       <View>
-        <Text>{item.quote}</Text>
+        <View>
+          <Text>{item.quote}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              handleOnLikePress(item.id, item.quote);
+            }}
+          >
+            <AntDesign
+              name={isQuoteFav[item.id] ? "heart" : "hearto"}
+              size={30}
+              color="black"
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -54,8 +76,8 @@ export default function QuotesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
+  icon: {
+    marginHorizontal: 15,
+    marginRight: 15,
   },
 });

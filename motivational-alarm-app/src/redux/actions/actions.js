@@ -1,8 +1,11 @@
 import {
   ADD_ALARM,
+  ADD_QUOTE_TO_FAV_QUOTES,
   DELETE_ALARM,
   DELETE_ALL_ALARMS,
+  DELETE_QUOTE_TO_FAV_QUOTES,
   SET_ALARMS,
+  SET_FAV_QUOTES,
 } from "./types";
 // all actions returns object to dispatch
 export const addAlarm = (
@@ -50,6 +53,33 @@ export const setLocalStorageOfAlarms = (storageAlarms) => {
     type: SET_ALARMS,
     payload: {
       alarms: storageAlarms,
+    },
+  };
+};
+
+export const addQuoteToFavQuotes = (quoteId, quote) => {
+  return {
+    type: ADD_QUOTE_TO_FAV_QUOTES,
+    payload: {
+      id: quoteId,
+      quoteText: quote,
+    },
+  };
+};
+export const deleteQuoteFromFavQuotes = (quoteId, quote) => {
+  return {
+    type: DELETE_QUOTE_TO_FAV_QUOTES,
+    payload: {
+      id: quoteId,
+      quoteText: quote,
+    },
+  };
+};
+export const setLocalStorageOfFavQuotes = (storageFavQuotes) => {
+  return {
+    type: SET_FAV_QUOTES,
+    payload: {
+      alarms: storageFavQuotes,
     },
   };
 };

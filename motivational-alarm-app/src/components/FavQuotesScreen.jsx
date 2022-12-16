@@ -1,8 +1,14 @@
 import { SafeAreaView, StyleSheet, Text, View, FlatList } from "react-native";
+import { useSelector } from "react-redux";
 export default function FavQuotesScreen() {
-  const favQuotes = [];
+  const favQuotes = useSelector((state) => state.quotesReducer.favQuotes);
+  //console.log(favQuotes);
   const renderItem = ({ item }) => {
-    return <View></View>;
+    return (
+      <View>
+        <Text>{item.quote}</Text>
+      </View>
+    );
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
