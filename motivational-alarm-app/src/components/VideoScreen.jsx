@@ -1,13 +1,16 @@
-import { StyleSheet, Text, View} from "react-native";
+import { Dimensions, ImageBackground, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Video } from "expo-av";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WebView from "react-native-webview";
-export default function VideoScreen() {
-  const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
+
+
+export default function VideoScreen() 
+{
+
   const [videoPath, setVideoPath] = useState(null);
+
   const getVideo = async () => {
     let idx = await AsyncStorage.getItem("videoIdx");
     idx = +idx;
@@ -30,57 +33,79 @@ export default function VideoScreen() {
     getVideo();
   }, []);
   return (
-    <View style={styles.container}>
-      <Text style={styles.textStyle}>
-        Here is your motivational video today.
-      </Text>
-      {/* {videoPath != null ? (
-        <Video
-          ref={video}
-          style={styles.video}
-          source={require("../../assets/videos/video2.mp4")}
-          useNativeControls
-          resizeMode="contain"
-          isLooping
-          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        />
-      ) : (
-        <Text> Loading...</Text>
-      )} */}
-      <WebView
-        scalesPageToFit={true}
-        bounces={false}
-        javaScriptEnabled
-        style={{ height: 500, width: 300, flex: 1 }}
-        source={{
-          html: `
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../../assets/Images/background2.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>
+          <Text style={styles.headerTitle}>
+            Here is your motivational video today.
+          </Text>
+          {
+            videoPath != null ? (
+              <WebView
+                scalesPageToFit={true}
+                bounces={false}
+                javaScriptEnabled
+                style={styles.webFrame}
+                source={{
+                  html: `
                 <!DOCTYPE html>
                 <html>
-                  <head></head> 
+                  <head>
+                  </head> 
                   <body>
-                    <div id="baseDiv"><iframe width="100%" height="900" src=${videoPath} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> //<--- add your iframe here
+                    
+                      <iframe width="100%" height="700" src=${videoPath} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  
                   </body>
-                </html>
-          `,
-        }}
-        automaticallyAdjustContentInsets={false}
-      />
-    </View>
+                </html>`,
+                }}
+                automaticallyAdjustContentInsets={false}
+              />
+            ) : (<Text style={styles.textStyle}> Loading...</Text>)
+          }
+
+        </View>
+      </ImageBackground>
+
+    </SafeAreaView>
   );
 }
 
+let deviceWidth = Dimensions.get('window').width
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: "rgba(0,0,0,0.4)"
   },
-  video: {
+  webFrame: {
+    width: deviceWidth,
     flex: 1,
-    alignSelf: "stretch",
+    backgroundColor: 'transparent',
+  },
+  headerTitle: {
+    textAlign: "center",
+    fontSize: 25,
+    color: "#001b36",
+    fontWeight: "bold",
+    padding: 6,
+    margin: 5,
+    marginBottom: 80,
   },
   textStyle: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "500",
+    textAlign: "center",
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    padding: 6,
+    margin: 5,
+    marginVertical: 100,
   },
 });

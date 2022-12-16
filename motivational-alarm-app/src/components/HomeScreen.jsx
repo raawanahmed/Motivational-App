@@ -1,7 +1,14 @@
-import { StyleSheet, Button, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ImageBackground,
+} from "react-native";
 import axios from "axios";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MyButton from "./MyButton";
+
 
 export default function HomeScreen({ navigation }) {
   const addVideo = async (id, path) => {
@@ -45,24 +52,36 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="Set an Alarm"
-        onPress={() => navigation.navigate("Alarm")}
-      />
-      <Button
-        title="Go to your motivational video today!"
-        onPress={() => navigation.navigate("Video Screen")}
-      />
-      <Button
-        title="Go to your motivational quotes"
-        onPress={() => navigation.navigate("Quotes Screen")}
-      />
-      <Button
-        title="Go to your favorite motivational quotes"
-        onPress={() => navigation.navigate("Fav Quotes Screen")}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../../assets/Images/background2.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>
+          <MyButton
+            buttonTitle="Set an Alarm"
+            actionOnPress={() => navigation.navigate("Alarm")}
+            buttonColor={"#001b36"}
+          />
+          <MyButton
+            buttonTitle="Go to your motivational video today!"
+            actionOnPress={() => navigation.navigate("Video Screen")}
+            buttonColor={"#001b36"}
+          />
+          <MyButton
+            buttonTitle="Go to your motivational quotes"
+            actionOnPress={() => navigation.navigate("Quotes Screen")}
+            buttonColor={"#001b36"}
+          />
+          <MyButton
+            buttonTitle="Go to your favorite motivational quotes"
+            actionOnPress={() => navigation.navigate("Fav Quotes Screen")}
+            buttonColor={"#001b36"}
+          />
+        </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
@@ -71,5 +90,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.4)"
+  },
+  headerTitle: {
+    textAlign: "center",
+    fontSize: 25,
+    color: "#001b36",
+    fontWeight: "bold",
+    padding: 6,
+    margin: 5,
+    marginBottom: 80,
   },
 });

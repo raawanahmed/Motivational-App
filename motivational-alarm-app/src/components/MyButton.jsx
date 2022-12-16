@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
     borderRadius: 10,
-    width: 140,
+    width: 280,
     marginHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "500",
+    textAlign: 'center'
   },
   viewStyle: {
     alignItems: "center"
