@@ -55,8 +55,12 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate("Video Screen")}
       />
       <Button
-        title="Go to your motivational quote today!"
+        title="Go to your motivational quotes"
         onPress={() => navigation.navigate("Quotes Screen")}
+      />
+      <Button
+        title="Go to your favorite motivational quotes"
+        onPress={() => navigation.navigate("Fav Quotes Screen")}
       />
     </View>
   );

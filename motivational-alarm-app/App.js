@@ -5,6 +5,7 @@ import HomeScreen from "./src/components/HomeScreen";
 import VideoScreen from "./src/components/VideoScreen";
 import QuotesScreen from "./src/components/QuotesScreen";
 import CreateAlarm from "./src/components/CreateAlarm";
+import FavQuotesScreen from "./src/components/FavQuotesScreen";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ export default function App() {
           <Stack.Screen name="Alarm" component={CreateAlarm} />
           <Stack.Screen name="Video Screen" component={VideoScreen} />
           <Stack.Screen name="Quotes Screen" component={QuotesScreen} />
+          <Stack.Screen name="Fav Quotes Screen" component={FavQuotesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
