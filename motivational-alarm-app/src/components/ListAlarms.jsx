@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { deleteAlarm, setLocalStorageOfAlarms } from "../redux/actions/actions";
 export default function ListAlarms() {
   const dispatch = useDispatch();
-  const { alarms } = useSelector((state) => state);
+  const alarms = useSelector((state) => state.alarmReducer.alarms);
   const [isLoading, setIsLoading] = useState(false);
   const yesButtonPressed = (item) => {
     console.log("Yes Pressed");
