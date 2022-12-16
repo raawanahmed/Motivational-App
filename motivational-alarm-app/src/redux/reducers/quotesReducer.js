@@ -1,13 +1,12 @@
 import {
   ADD_QUOTE_TO_FAV_QUOTES,
   DELETE_QUOTE_FROM_FAV_QUOTES,
-  SET_FAV_QUOTES,
   SET_LIKES,
+  SET_FAV_QUOTES_TO_LOCAL_STORAGE,
+  SET_LIKES_TO_LOCAL_STORAGE,
 } from "../actions/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const updateFavQuotes = async (favQuotes) => {
-  await AsyncStorage.setItem("favQuotes", JSON.stringify(favQuotes));
-};
+
 const initialState = {
   quotes: [
     {
@@ -43,6 +42,12 @@ const initialState = {
   favQuotes: [],
   isQuoteFav: [false, false, false, false, false, false],
 };
+const updateFavQuotes = async (favQuotes) => {
+  await AsyncStorage.setItem("favQuotes", JSON.stringify(favQuotes));
+};
+const updateIsQuoteFav = async (isQuoteFav) => {
+  await AsyncStorage.setItem("isQuoteFav", JSON.stringify(isQuoteFav));
+};
 
 const quotesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -65,19 +70,25 @@ const quotesReducer = (state = initialState, action) => {
         ...state,
         favQuotes: favQuotesAfterDelete,
       };
-    case SET_FAV_QUOTES:
-      return {
-        ...state,
-        favQuotes: action.payload.favQuotes,
-      };
     case SET_LIKES:
       const isLike = [...state.isQuoteFav];
       isLike[action.payload.id] = !isLike[action.payload.id];
+      updateIsQuoteFav(isLike);
       // console.log("islike: ");
       // console.log(isLike);
       return {
         ...state,
         isQuoteFav: isLike,
+      };
+    case SET_FAV_QUOTES_TO_LOCAL_STORAGE:
+      return {
+        ...state,
+        favQuotes: action.payload.favQuotes,
+      };
+    case SET_LIKES_TO_LOCAL_STORAGE:
+      return {
+        ...state,
+        isQuoteFav: action.payload.isQuoteFav,
       };
     default:
       return state;

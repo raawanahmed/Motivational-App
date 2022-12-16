@@ -7,18 +7,34 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import {
   addQuoteToFavQuotes,
   deleteQuoteFromFavQuotes,
   setLikeStateToQuote,
+  setLocalStorageOfFavQuotes,
 } from "../redux/actions/actions";
+import { useState, useEffect } from "react";
 export default function FavQuotesScreen() {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const favQuotes = useSelector((state) => state.quotesReducer.favQuotes);
   const isQuoteFav = useSelector((state) => state.quotesReducer.isQuoteFav);
 
-  //console.log(favQuotes);
+  const init = async () => {
+    setIsLoading(true);
+    let storageFavQuotes = await AsyncStorage.getItem("favQuotes");
+    if (storageFavQuotes != null) {
+      storageFavQuotes = JSON.parse(storageFavQuotes);
+      dispatch(setLocalStorageOfFavQuotes(storageFavQuotes));
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
+ // console.log(favQuotes);
   const handleOnLikePress = (quoteId, quote) => {
     const isLike = [...isQuoteFav];
     isLike[quoteId] = !isLike[quoteId];
@@ -30,7 +46,7 @@ export default function FavQuotesScreen() {
     } else {
       dispatch(deleteQuoteFromFavQuotes(quoteId));
     }
-    console.log("You pressed on like.");
+   // console.log("You pressed on like.");
   };
   const renderItem = ({ item }) => {
     return (

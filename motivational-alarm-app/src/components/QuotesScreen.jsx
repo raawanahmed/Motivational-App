@@ -14,7 +14,10 @@ import {
   addQuoteToFavQuotes,
   deleteQuoteFromFavQuotes,
   setLikeStateToQuote,
+  setLocalStorageOfLikes,
 } from "../redux/actions/actions";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function QuotesScreen() {
   const navigation = useNavigation();
   // const [isLike, setIsLike] = useState([]);
@@ -22,6 +25,20 @@ export default function QuotesScreen() {
   const Quotes = useSelector((state) => state.quotesReducer.quotes);
   const favQuotes = useSelector((state) => state.quotesReducer.favQuotes);
   const isQuoteFav = useSelector((state) => state.quotesReducer.isQuoteFav);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const init = async () => {
+    setIsLoading(true);
+    let storageLikeQuotes = await AsyncStorage.getItem("isQuoteFav");
+    if (storageLikeQuotes != null) {
+      storageLikeQuotes = JSON.parse(storageLikeQuotes);
+      dispatch(setLocalStorageOfLikes(storageLikeQuotes));
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   const handleOnLikePress = (quoteId, quote) => {
     const isLike = [...isQuoteFav];
     isLike[quoteId] = !isLike[quoteId];
@@ -60,11 +77,15 @@ export default function QuotesScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Text>Motivational Quotes</Text>
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={Quotes}
-        renderItem={renderItem}
-      />
+      {isLoading ? (
+        <Text>loading...</Text>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={Quotes}
+          renderItem={renderItem}
+        />
+      )}
     </SafeAreaView>
   );
 }
