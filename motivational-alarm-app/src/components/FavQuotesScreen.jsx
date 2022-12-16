@@ -14,6 +14,7 @@ import {
   deleteQuoteFromFavQuotes,
   setLikeStateToQuote,
   setLocalStorageOfFavQuotes,
+  setLocalStorageOfLikes,
 } from "../redux/actions/actions";
 import { useState, useEffect } from "react";
 export default function FavQuotesScreen() {
@@ -29,12 +30,17 @@ export default function FavQuotesScreen() {
       storageFavQuotes = JSON.parse(storageFavQuotes);
       dispatch(setLocalStorageOfFavQuotes(storageFavQuotes));
     }
+    let storageLikeQuotes = await AsyncStorage.getItem("isQuoteFav");
+    if (storageLikeQuotes != null) {
+      storageLikeQuotes = JSON.parse(storageLikeQuotes);
+      dispatch(setLocalStorageOfLikes(storageLikeQuotes));
+    }
     setIsLoading(false);
   };
   useEffect(() => {
     init();
   }, []);
- // console.log(favQuotes);
+  // console.log(favQuotes);
   const handleOnLikePress = (quoteId, quote) => {
     const isLike = [...isQuoteFav];
     isLike[quoteId] = !isLike[quoteId];
@@ -46,7 +52,7 @@ export default function FavQuotesScreen() {
     } else {
       dispatch(deleteQuoteFromFavQuotes(quoteId));
     }
-   // console.log("You pressed on like.");
+    // console.log("You pressed on like.");
   };
   const renderItem = ({ item }) => {
     return (
