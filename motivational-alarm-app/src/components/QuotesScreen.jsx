@@ -13,32 +13,26 @@ import { useState } from "react";
 import {
   addQuoteToFavQuotes,
   deleteQuoteFromFavQuotes,
+  setLikeStateToQuote,
 } from "../redux/actions/actions";
 export default function QuotesScreen() {
   const navigation = useNavigation();
   // const [isLike, setIsLike] = useState([]);
   const dispatch = useDispatch();
-  const [isQuoteFav, setQuoteToFav] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
   const Quotes = useSelector((state) => state.quotesReducer.quotes);
+  const favQuotes = useSelector((state) => state.quotesReducer.favQuotes);
+  const isQuoteFav = useSelector((state) => state.quotesReducer.isQuoteFav);
   const handleOnLikePress = (quoteId, quote) => {
     const isLike = [...isQuoteFav];
-    // console.log(quoteId);
-    console.log("before click " + isLike);
+    isLike[quoteId] = !isLike[quoteId];
+   // console.log(isLike);
+    dispatch(setLikeStateToQuote(quoteId));
+   // console.log(isQuoteFav);
     if (isLike[quoteId] === true) {
       dispatch(addQuoteToFavQuotes(quoteId, quote));
     } else {
       dispatch(deleteQuoteFromFavQuotes(quoteId));
     }
-    isLike[quoteId] = !isLike[quoteId];
-    console.log(isLike);
-    setQuoteToFav(isLike);
     console.log("You pressed on like.");
   };
   // navigation.navigate("Fav Quotes Screen");

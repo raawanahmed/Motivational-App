@@ -3,9 +3,10 @@ import {
   ADD_QUOTE_TO_FAV_QUOTES,
   DELETE_ALARM,
   DELETE_ALL_ALARMS,
-  DELETE_QUOTE_TO_FAV_QUOTES,
+  DELETE_QUOTE_FROM_FAV_QUOTES,
   SET_ALARMS,
   SET_FAV_QUOTES,
+  SET_LIKES,
 } from "./types";
 // all actions returns object to dispatch
 export const addAlarm = (
@@ -62,16 +63,16 @@ export const addQuoteToFavQuotes = (quoteId, quote) => {
     type: ADD_QUOTE_TO_FAV_QUOTES,
     payload: {
       id: quoteId,
-      quoteText: quote,
+      quote: quote,
     },
   };
 };
 export const deleteQuoteFromFavQuotes = (quoteId, quote) => {
   return {
-    type: DELETE_QUOTE_TO_FAV_QUOTES,
+    type: DELETE_QUOTE_FROM_FAV_QUOTES,
     payload: {
       id: quoteId,
-      quoteText: quote,
+      quote: quote,
     },
   };
 };
@@ -79,7 +80,16 @@ export const setLocalStorageOfFavQuotes = (storageFavQuotes) => {
   return {
     type: SET_FAV_QUOTES,
     payload: {
-      alarms: storageFavQuotes,
+      favQuotes: storageFavQuotes,
     },
   };
 };
+export const setLikeStateToQuote = (quoteId) => {
+  return {
+    type: SET_LIKES,
+    payload: {
+      id: quoteId,
+    },
+  };
+};
+export const setLocalStorageOfLikes = () => {};
