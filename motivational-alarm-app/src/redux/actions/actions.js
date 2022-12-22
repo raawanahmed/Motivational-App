@@ -19,7 +19,7 @@ export const addAlarm = (
   return {
     type: ADD_ALARM,
     payload: {
-      id: numOfID,
+      id: numOfID + 1,
       time: formattedTime,
       date: formattedDate,
       notificationId: notificationIdentifier,
