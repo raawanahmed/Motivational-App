@@ -13,9 +13,9 @@ import { AntDesign } from "@expo/vector-icons";
 import {
   addQuoteToFavQuotes,
   deleteQuoteFromFavQuotes,
-  setLikeStateToQuote,
-  setLocalStorageOfLikes,
-  setLocalStorageOfFavQuotes,
+  handleLikeStateToQuote,
+  handleLikesOfQuotesArr,
+  handleFavQuotesArr,
 } from "../redux/actions/actions";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,12 +29,12 @@ export default function ListOfQuotes({ quotes }) {
     let storageFavQuotes = await AsyncStorage.getItem("favQuotes");
     if (storageFavQuotes != null) {
       storageFavQuotes = JSON.parse(storageFavQuotes);
-      dispatch(setLocalStorageOfFavQuotes(storageFavQuotes));
+      dispatch(handleFavQuotesArr(storageFavQuotes));
     }
     let storageLikeQuotes = await AsyncStorage.getItem("isQuoteFav");
     if (storageLikeQuotes != null) {
       storageLikeQuotes = JSON.parse(storageLikeQuotes);
-      dispatch(setLocalStorageOfLikes(storageLikeQuotes));
+      dispatch(handleLikesOfQuotesArr(storageLikeQuotes));
     }
     setIsLoading(false);
   };
@@ -45,7 +45,7 @@ export default function ListOfQuotes({ quotes }) {
     const isLike = [...isQuoteFav];
     isLike[quoteId] = !isLike[quoteId];
     // console.log(isLike);
-    dispatch(setLikeStateToQuote(quoteId));
+    dispatch(handleLikeStateToQuote(quoteId));
     // console.log(isQuoteFav);
     if (isLike[quoteId] === true) {
       dispatch(addQuoteToFavQuotes(quoteId, quote));

@@ -77,7 +77,7 @@ export const deleteQuoteFromFavQuotes = (quoteId, quote) => {
     },
   };
 };
-export const setLocalStorageOfFavQuotes = (storageFavQuotes) => {
+export const handleFavQuotesArr = (storageFavQuotes) => {
   return {
     type: SET_FAV_QUOTES_TO_LOCAL_STORAGE,
     payload: {
@@ -85,7 +85,7 @@ export const setLocalStorageOfFavQuotes = (storageFavQuotes) => {
     },
   };
 };
-export const setLikeStateToQuote = (quoteId) => {
+export const handleLikeStateToQuote = (quoteId) => {
   return {
     type: SET_LIKES,
     payload: {
@@ -93,7 +93,7 @@ export const setLikeStateToQuote = (quoteId) => {
     },
   };
 };
-export const setLocalStorageOfLikes = (storageLikeQuotes) => {
+export const handleLikesOfQuotesArr = (storageLikeQuotes) => {
   return {
     type: SET_LIKES_TO_LOCAL_STORAGE,
     payload: {
