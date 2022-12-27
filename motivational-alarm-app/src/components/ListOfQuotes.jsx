@@ -90,6 +90,7 @@ export default function ListOfQuotes({ quotes }) {
                 keyExtractor={(item) => item.id}
                 data={quotes}
                 renderItem={renderItem}
+                style={{marginBottom : 100}}
               />
             )}
           </View>

@@ -4,8 +4,7 @@ import {
   DELETE_ALL_ALARMS,
   GET_ALARMS,
 } from "../actions/types";
-import { cancelScheduledNotification } from "../../components/TimePicker";
-import { cancelAllScheduledNotifications } from "../../components/TimePicker";
+import { cancelAllScheduledNotifications, cancelScheduledNotification } from "../../services/helperFunctions"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {

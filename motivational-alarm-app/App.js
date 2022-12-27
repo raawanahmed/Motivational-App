@@ -43,7 +43,6 @@ export default function App() {
           <Stack.Screen name="Fav Quotes Screen" component={FavQuotesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      <StatusBar />
     </Provider>
   );
 }

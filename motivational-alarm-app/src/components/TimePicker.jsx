@@ -12,7 +12,7 @@ import {
   deleteAllAlarms,
   deleteNotificationFromList,
 } from "../redux/actions/actions";
-
+import { cancelAllScheduledNotifications, cancelScheduledNotification } from "../services/helperFunctions";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -22,15 +22,6 @@ Notification.setNotificationHandler({
     };
   },
 });
-export async function cancelAllScheduledNotifications() {
-  // console.log("In Cancel All Notifications");
-  await Notification.cancelAllScheduledNotificationsAsync();
-}
-export async function cancelScheduledNotification(notificationId) {
-  // console.log(notificationId);
-  // await Notification.dismissNotificationAsync(notificationId);
-  await Notification.cancelScheduledNotificationAsync(notificationId);
-}
 export default function TimePicker() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [numOfID, setID] = React.useState(0);
@@ -117,7 +108,7 @@ export default function TimePicker() {
     );
     setID(numOfID + 1);
   };
-  const handleOnConfirm = (date) => {
+  const handleOnConfirm = async (date) => {
     var currentTime = Date.now();
     if (date.getTime() < currentTime) {
       Alert.alert("Please choose future time.");
@@ -125,7 +116,7 @@ export default function TimePicker() {
       return;
     }
     hideDatePicker();
-    const notificationId = handleAddNotification(date);
+    const notificationId = await handleAddNotification(date);
     handleOnAddAlarm(date, notificationId);
   };
 
@@ -145,7 +136,14 @@ export default function TimePicker() {
   };
 
   return (
-    <View style={{ marginLeft: 30, marginRight: 30, marginVertical: 10, marginBottom: 50 }}>
+    <View
+      style={{
+        marginLeft: 30,
+        marginRight: 30,
+        marginVertical: 10,
+        marginBottom: 50,
+      }}
+    >
       <MyButton
         buttonTitle={"Add Alarm"}
         buttonColor={"#bb9cb4"}

@@ -1,3 +1,4 @@
+import * as Notification from "expo-notifications";
 export const formatTime = (date) => {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -18,3 +19,13 @@ export const formatDate = (date) => {
 
   return [day, month, year].join("/");
 };
+
+export async function cancelAllScheduledNotifications() {
+  // console.log("In Cancel All Notifications");
+  await Notification.cancelAllScheduledNotificationsAsync();
+}
+export async function cancelScheduledNotification(notificationId) {
+  // console.log(notificationId);
+  // await Notification.dismissNotificationAsync(notificationId);
+  await Notification.cancelScheduledNotificationAsync(notificationId);
+}
