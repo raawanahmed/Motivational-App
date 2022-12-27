@@ -27,7 +27,6 @@ export default function ListAlarms() {
       {
         text: "No",
         onPress: () => console.log("No Pressed"),
-        style: "cancel",
       },
       { text: "Yes", onPress: () => yesButtonPressed(item) },
     ]);
@@ -43,7 +42,7 @@ export default function ListAlarms() {
           buttonTitle="Delete"
           buttonColor="#001b36"
           actionOnPress={() => {
-            console.log("Delete button pressed");
+            //console.log("Delete button pressed");
             alertBeforeDeleting(item);
           }}
         />

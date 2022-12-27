@@ -75,7 +75,6 @@ export default function ListOfQuotes({ quotes }) {
     );
   };
   return (
-    <>
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require("../../assets/Images/background2.jpg")}
@@ -96,7 +95,6 @@ export default function ListOfQuotes({ quotes }) {
           </View>
         </ImageBackground>
       </View>
-    </>
   );
 }
 
