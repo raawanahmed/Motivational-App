@@ -12,7 +12,6 @@ import {
   deleteAllAlarms,
   deleteNotificationFromList,
 } from "../redux/actions/actions";
-import { cancelAllScheduledNotifications, cancelScheduledNotification } from "../services/helperFunctions";
 Notification.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -37,9 +36,9 @@ export default function TimePicker() {
     await sound.playAsync();
   };
 
-  const stopSound = async () => {
-    await sound.pauseAsync();
-  };
+  // const stopSound = async () => {
+  //   await sound.pauseAsync();
+  // };
 
   useEffect(() => {
     return sound
@@ -69,7 +68,6 @@ export default function TimePicker() {
         playSound();
       }
     );
-
     return () => {
       // cleanup function remove subscription before component unmounts
       backgroundSubscription.remove();

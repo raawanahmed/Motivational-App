@@ -1,21 +1,16 @@
 import {
   Dimensions,
-  ImageBackground,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import { Video } from "expo-av";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
 import WebView from "react-native-webview";
 
-export default function Video({videoPath}) {
+export default function VideoComponent({videoPath}) {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Motivational video</Text>
+         <Text style={styles.headerTitle}>Motivational video</Text>
       {videoPath != null ? (
         <WebView
           scalesPageToFit={true}
@@ -59,15 +54,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
   },
-  headerTitle: {
-    textAlign: "center",
-    fontSize: 25,
-    color: "#001b36",
-    fontWeight: "bold",
-    padding: 6,
-    marginBottom: 80,
-    marginTop: 50,
-  },
   textStyle: {
     textAlign: "center",
     fontSize: 20,
@@ -76,5 +62,14 @@ const styles = StyleSheet.create({
     padding: 6,
     margin: 5,
     marginVertical: 100,
+  },
+  headerTitle: {
+    textAlign: "center",
+    fontSize: 25,
+    color: "#001b36",
+    fontWeight: "bold",
+    padding: 6,
+    marginBottom: 80,
+    marginTop: 50,
   },
 });

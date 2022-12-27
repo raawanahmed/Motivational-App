@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WebView from "react-native-webview";
-
+import VideoComponent from "./VideoComponent";
 export default function VideoScreen() {
   const [videoPath, setVideoPath] = useState(null);
 
@@ -44,33 +44,7 @@ export default function VideoScreen() {
         style={{ flex: 1 }}
         resizeMode="cover"
       >
-        <View style={styles.container}>
-          <Text style={styles.headerTitle}>Motivational video</Text>
-          {videoPath != null ? (
-            <WebView
-              scalesPageToFit={true}
-              bounces={false}
-              javaScriptEnabled
-              style={styles.webFrame}
-              source={{
-                html: `
-                <!DOCTYPE html>
-                <html>
-                  <head>
-                  </head> 
-                  <body>
-                    
-                      <iframe width="100%" height="700" src=${videoPath} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  
-                  </body>
-                </html>`,
-              }}
-              automaticallyAdjustContentInsets={false}
-            />
-          ) : (
-            <Text style={styles.textStyle}> Loading...</Text>
-          )}
-        </View>
+       <VideoComponent videoPath={videoPath}></VideoComponent>
       </ImageBackground>
     </View>
   );

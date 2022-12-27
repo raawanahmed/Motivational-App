@@ -75,27 +75,25 @@ export default function ListOfQuotes({ quotes }) {
     );
   };
   return (
-      <View style={{ flex: 1 }}>
-        <ImageBackground
-          source={require("../../assets/Images/background2.jpg")}
-          style={{ flex: 1 }}
-          resizeMode="cover"
-        >
-          <View style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
-            <Text style={styles.headerTitle}>Motivational Quotes</Text>
-            {isLoading ? (
-              <Text>loading...</Text>
-            ) : (
-              <FlatList
-                keyExtractor={(item) => item.id}
-                data={quotes}
-                renderItem={renderItem}
-                style={{marginBottom : 100}}
-              />
-            )}
-          </View>
-        </ImageBackground>
+    <ImageBackground
+      source={require("../../assets/Images/background2.jpg")}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      <View style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
+        <Text style={styles.headerTitle}>Motivational Quotes</Text>
+        {isLoading ? (
+          <Text>loading...</Text>
+        ) : (
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={quotes}
+            renderItem={renderItem}
+            style={{ marginBottom: 100 }}
+          />
+        )}
       </View>
+    </ImageBackground>
   );
 }
 
