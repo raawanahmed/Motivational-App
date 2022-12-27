@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 import MyButton from "./MyButton";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { deleteAlarm, setLocalStorageOfAlarms } from "../redux/actions/actions";
+import { deleteAlarm, getLocalStorageOfAlarms } from "../redux/actions/actions";
 export default function ListAlarms() {
   const dispatch = useDispatch();
   const alarms = useSelector((state) => state.alarmReducer.alarms);
@@ -54,7 +54,7 @@ export default function ListAlarms() {
     let storageAlarms = await AsyncStorage.getItem("alarms");
     if (storageAlarms != null) {
       storageAlarms = JSON.parse(storageAlarms);
-      dispatch(setLocalStorageOfAlarms(storageAlarms));
+      dispatch(getLocalStorageOfAlarms(storageAlarms));
     }
     setIsLoading(false);
   };

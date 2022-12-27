@@ -2,7 +2,7 @@ import {
   ADD_ALARM,
   DELETE_ALARM,
   DELETE_ALL_ALARMS,
-  SET_ALARMS,
+  GET_ALARMS,
 } from "../actions/types";
 import { cancelScheduledNotification } from "../../components/TimePicker";
 import { cancelAllScheduledNotifications } from "../../components/TimePicker";
@@ -60,7 +60,7 @@ const alarmReducer = (state = initialState, action) => {
         ...state,
         alarms: [],
       };
-    case SET_ALARMS:
+    case GET_ALARMS:
       return {
         ...state,
         alarms: action.payload.alarms,

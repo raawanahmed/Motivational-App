@@ -4,7 +4,7 @@ import {
   DELETE_ALARM,
   DELETE_ALL_ALARMS,
   DELETE_QUOTE_FROM_FAV_QUOTES,
-  SET_ALARMS,
+  GET_ALARMS,
   SET_FAV_QUOTES_TO_LOCAL_STORAGE,
   SET_LIKES,
   SET_LIKES_TO_LOCAL_STORAGE,
@@ -50,9 +50,9 @@ export const deleteNotificationFromList = (notificationId) => {
     },
   };
 };
-export const setLocalStorageOfAlarms = (storageAlarms) => {
+export const getLocalStorageOfAlarms = (storageAlarms) => {
   return {
-    type: SET_ALARMS,
+    type: GET_ALARMS,
     payload: {
       alarms: storageAlarms,
     },
