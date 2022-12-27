@@ -17,9 +17,8 @@ export default function VideoScreen() {
 
   const getVideo = async () => {
     let idx = await AsyncStorage.getItem("videoIdx");
-    idx = +idx;
+    idx = +idx; // to convert it to number
     idx %= 6;
-    await AsyncStorage.setItem("videoIdx", `${(idx + 1) % 6}`);
     const res = await axios.post(
       `https://motivational-alarm-app.herokuapp.com/api/getVideo/${idx}`,
       {},
@@ -29,9 +28,11 @@ export default function VideoScreen() {
         },
       }
     );
-    console.log(res.data.path);
-    setVideoPath(res.data.path);
+    // console.log(res.data.path);
+    setVideoPath(res.data.path);    
+    await AsyncStorage.setItem("videoIdx", `${(idx + 1) % 6}`);
   };
+  
 
   useEffect(() => {
     getVideo();

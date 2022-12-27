@@ -33,7 +33,7 @@ export async function cancelScheduledNotification(notificationId) {
 }
 export default function TimePicker() {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [numOfID, setID] = React.useState(3);
+  const [numOfID, setID] = React.useState(0);
   const [sound, setSound] = useState();
   const dispatch = useDispatch();
   const navigation = useNavigation();
